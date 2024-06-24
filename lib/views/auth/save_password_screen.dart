@@ -190,6 +190,7 @@ class _SavePasswordScreenState extends State<SavePasswordScreen> {
                             );
                           }
                         }
+                        FocusScope.of(context).unfocus();
                       },
                     )
                   ],

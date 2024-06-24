@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 // ------- STRINGS ------------------
 //const baseUrl = "http://3.16.67.99:3000/api/v1";
 //const baseUrl = "http://10.0.2.2:3000/api/v1";
-const baseUrl = "https://d33b-177-222-36-39.ngrok-free.app/api/v1";
+const baseUrl = "http://3.16.135.237:3000/api/v1";
 //const socketUrl = "http://3.16.67.99:3000";
 //const socketUrl = "http://10.0.2.2:3000";
-const socketUrl = "https://d33b-177-222-36-39.ngrok-free.app";
+const socketUrl = "http://3.16.135.237:3000";
 const loginUrl = '$baseUrl/auth/login';
 const registerUrl = '$baseUrl/auth/register';
 const logoutUrl = '${baseUrl}logout';

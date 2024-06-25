@@ -223,7 +223,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                           ),
                         ),
                     ],
-                    if (widget.videoMessage != null) ...[
+                    if (widget.videoMessage != null && _videoController != null) ...[
                       if (widget.isSender)
                         SizedBox(
                           height: 200,

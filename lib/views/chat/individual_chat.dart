@@ -233,11 +233,10 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
                   child: const Text('Cancelar'),
                 ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     String? image = _selectedImage == null
                         ? null
                         : getStringImage(_selectedImage);
-                    print('file $image');
                     if (_selectedImage != null) {
                       sendImage(image!);
                     }
@@ -373,24 +372,28 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
   }
 
   void sendVideo(String video) {
-    print('socket ${widget.socket.connected}');
-    if (widget.socket.connected) {
-      Map<String, Object> messageData;
-      messageData = {
-        'receivingUserId': widget.chat.otherUserId,
-        'message': {
-          'userId': userId,
-          'chatId': widget.chat.chatId,
-          'resources': [
-            {
-              'type': 'V',
-              'pathDevice': video,
-            }
-          ]
-        },
-      };
-      print('sendMessage $messageData');
-      widget.socket.emit('sendMessage', messageData);
+    try {
+      print('socket ${widget.socket.connected}');
+      if (widget.socket.connected) {
+        Map<String, Object> messageData;
+        messageData = {
+          'receivingUserId': widget.chat.otherUserId,
+          'message': {
+            'userId': userId,
+            'chatId': widget.chat.chatId,
+            'resources': [
+              {
+                'type': 'V',
+                'pathDevice': video,
+              }
+            ]
+          },
+        };
+        print('sendMessage $messageData');
+        widget.socket.emit('sendMessage', messageData);
+      }
+    } catch (e) {
+      print('Error al enviar el video: $e');
     }
   }
 
@@ -487,13 +490,11 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
       if (data is Map) {
         print('entra a data is map');
         NewMessage newMessage = NewMessage.fromJson(data);
-        print('new message ${newMessage.textOrigin} ${newMessage.videoMessage} ${newMessage.imageUrl}');
-
         bool isDuplicate = chatBubbles.any((bubble) =>
             bubble.message == newMessage.textOrigin &&
             bubble.isSender == (userId == newMessage.senderId));
-        
-        print('video chat ${newMessage.videoMessage}');
+
+        print('video chat ${newMessage.videoMessage} isShow ${newMessage.isShow}');
 
         if (!isDuplicate) {
           if (mounted) {
@@ -541,7 +542,9 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
 
   Future<void> updateFastAnswer(String message) async {
     try {
-      List<String> answers = await getFastAnswers(message);
+      String? languageTranslate =
+          await getLanguageReceiver(widget.chat.userId!);
+      List<String> answers = await getFastAnswers(message, languageTranslate);
       List<String> filteredAnswers =
           answers.where((answer) => answer.isNotEmpty).toList();
 
@@ -560,7 +563,7 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
     NotificationService().showNotification(
       title: senderName,
       message: message,
-    ); 
+    );
   }
 
   @override

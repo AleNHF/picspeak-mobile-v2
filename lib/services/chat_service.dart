@@ -85,10 +85,10 @@ Future<dynamic> getAllChatByUser() async {
   }
 }
 
-Future<dynamic> getFastAnswers(String message) async {
+Future<dynamic> getFastAnswers(String message, String language) async {
   final response = await http.post(Uri.parse(fastAnswers),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({'message': message}));
+      body: jsonEncode({ 'message': message, 'language': language }));
   final jsonResponse = jsonDecode(response.body);
 
   if (response.statusCode == 201) {

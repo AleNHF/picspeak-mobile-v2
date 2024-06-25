@@ -72,7 +72,7 @@ class _ChatBubbleState extends State<ChatBubble> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (isBlurEnabled != false)
+        if (widget.isShow! != false)
           InkWell(
             onTap: () {
               if (widget.imageMessage != null) {
@@ -176,7 +176,7 @@ class _ChatBubbleState extends State<ChatBubble> {
               ),
             ),
           ),
-        if (isBlurEnabled == false)
+        if (widget.isShow == false)
           GestureDetector(
             onTap: () {
               if (widget.imageMessage != null) {

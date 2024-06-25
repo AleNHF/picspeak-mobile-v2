@@ -320,6 +320,12 @@ class IndividualChatScreenState extends State<IndividualChatScreen> {
         fastAnswers.clear();
       });
     }
+
+    if (!fastAnswers.contains(message)) {
+      setState(() {
+        fastAnswers.clear();
+      });
+    }
   }
 
   Future<void> sendNotification(String message) async {

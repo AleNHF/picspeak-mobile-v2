@@ -43,6 +43,7 @@ class _ChatBubbleState extends State<ChatBubble> {
   void initState() {
     super.initState();
     isBlurEnabled = widget.isShow;
+    print('isBlurEnabled $isBlurEnabled');
     _player = FlutterSoundPlayer();
     if (widget.videoMessage != null) {
       _videoController = VideoPlayerController.network(widget.videoMessage!);
@@ -51,7 +52,9 @@ class _ChatBubbleState extends State<ChatBubble> {
       });
       _videoController?.setLooping(true);
 
-      _videoController!.addListener(() {setState(() {});});
+      _videoController!.addListener(() {
+        setState(() {});
+      });
     }
   }
 
@@ -223,7 +226,8 @@ class _ChatBubbleState extends State<ChatBubble> {
                           ),
                         ),
                     ],
-                    if (widget.videoMessage != null && _videoController != null) ...[
+                    if (widget.videoMessage != null &&
+                        _videoController != null) ...[
                       if (widget.isSender)
                         SizedBox(
                           height: 200,
@@ -269,11 +273,15 @@ class _ChatBubbleState extends State<ChatBubble> {
         builder: (context) => Scaffold(
           appBar: AppBar(
             title: const Text(''),
+            backgroundColor: Colors.black87,
           ),
-          body: Center(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
+          body: Container(
+            color: Colors.black87,
+            child: Center(
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -315,6 +323,7 @@ class _ChatBubbleState extends State<ChatBubble> {
             builder: (context) => Scaffold(
                   appBar: AppBar(
                     title: const Text(''),
+                    backgroundColor: Colors.black87,
                   ),
                   body: FutureBuilder(
                     future: _initialzeVideoPlayer,
@@ -330,6 +339,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                     },
                   ),
                   floatingActionButton: FloatingActionButton(
+                      backgroundColor: Colors.black87,
                       child: Icon(_videoController!.value.isPlaying
                           ? Icons.pause
                           : Icons.play_arrow),
